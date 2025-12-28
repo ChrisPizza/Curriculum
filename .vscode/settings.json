@@ -1,0 +1,15 @@
+{
+  "files.associations": {
+    "*.css": "tailwindcss"
+  },
+  // Source - https://stackoverflow.com/a
+  // Posted by Zal, modified by community. See post 'Timeline' for change history
+  // Retrieved 2025-12-28, License - CC BY-SA 4.0
+
+  "tailwindCSS.experimental.configFile": "packages/ui-shadcn/src/css/globals.css",
+
+  "editor.quickSuggestions": {
+    "strings": true
+  },
+  "cSpell.words": ["vercel", "Vite"]
+}

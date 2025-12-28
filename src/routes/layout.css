@@ -1,0 +1,10 @@
+@import 'tailwindcss';
+
+button {
+  border: 1px solid #000;
+  border-radius: 8px;
+  padding: 5px
+}
+button:hover{
+  border: 1px solid #70c6ff;
+}
