@@ -3,31 +3,12 @@
   import { curriculum } from "../store/Curriculum";
   import Overlay from "../lib/Overlay.svelte";
   import Burger from "../lib/Burger.svelte";
+  import type { Course } from "$lib/types/Course";
+  import {
+    courseType,
+    defaultCoursesData,
+  } from "../lib/constants/constants.ts";
 
-  // items for course
-  type Course = {
-    state: "done" | "doing" | null;
-    name: string;
-    type:
-      | "必修"
-      | "系選修"
-      | "外選修"
-      | "領域通識"
-      | "語文通識"
-      | "其他"
-      | null;
-    credit: number;
-    teacher: string;
-    time: string;
-  };
-  const courseType = [
-    "必修",
-    "系選修",
-    "外選修",
-    "領域通識",
-    "語文通識",
-    "其他",
-  ];
   let courses: Course[] = [];
   const defaultCourse: Course = {
     state: null,
@@ -39,14 +20,17 @@
   };
   let newCourse = { ...defaultCourse };
   let deletedCourseIndex: number | null = null;
+  const courseHeaders = ["state", "name", "type", "credit", "teacher", "time"];
+  const weekDayHeaders = [
+    "",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+  ];
 
   // default courses
-  const defaultCoursesData = [
-    ["done", "微積分(一)", "必修", 3, "-", "1[5-6],3[5-6]"],
-    ["done", "統計學(一)", "必修", 3, "-", "1[2-3],3[1-2]"],
-    ["done", "經濟學(一)", "必修", 3, "-", "4[5-7]"],
-    ["done", "線性代數", "必修", 3, "-", "2[5-6],4[3-4]"],
-  ];
   for (let i: number = 0; i < defaultCoursesData.length; i++) {
     newCourse = {
       state: defaultCoursesData[i][0] as Course["state"],
@@ -60,7 +44,7 @@
   }
 
   //set and update curriculum
-  $: {
+  $: courses,
     curriculum.update((old) => {
       const next = old.map((row) => row.slice());
 
@@ -82,7 +66,9 @@
       }
       return next;
     });
-  }
+
+  let semesterStartDate = "2026-02-01";
+  let semesterEndDate = "2026-12-31";
 
   function appendCourse(course: Course) {
     if (Object.values(course).some((v) => v === "" || v == null)) return;
@@ -136,7 +122,12 @@
       >
     </Overlay>
   {/if}
-
+  {#if $overlay === "settings"}
+    <Overlay onClose={() => overlay.set(null)}>
+      Semester: <input type="date" bind:value={semesterStartDate} /> ~
+      <input type="date" bind:value={semesterEndDate} />
+    </Overlay>
+  {/if}
   <Burger />
 
   <button on:click={() => overlay.set("editor")}>Add Class</button>
@@ -145,7 +136,7 @@
     <thead>
       <tr>
         <td></td>
-        {#each courses.length > 0 ? Object.keys(courses[0]) : [] as k}
+        {#each courseHeaders as k}
           <td>{k}</td>
         {/each}
       </tr>
@@ -174,7 +165,7 @@
   <table>
     <thead>
       <tr>
-        {#each ["", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"] as d}
+        {#each weekDayHeaders as d}
           <td>{d}</td>
         {/each}
       </tr>

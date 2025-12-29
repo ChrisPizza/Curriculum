@@ -11,5 +11,13 @@
   "editor.quickSuggestions": {
     "strings": true
   },
-  "cSpell.words": ["vercel", "Vite"]
+  "cSpell.words": ["vercel", "Vite"],
+  "workbench.editor.customLabels.patterns": {
+    "**/routes/**/+page.ts": "${dirname}/+page.ts",
+    "**/routes/**/+page.svelte": "${dirname}/+page.svelte",
+    "**/routes/**/+page.server.ts": "${dirname}/+page.server.ts",
+    "**/routes/**/+layout.ts": "${dirname}/+layout.ts",
+    "**/routes/**/+layout.svelte": "${dirname}/+layout.svelte",
+    "**/routes/**/+layout.server.ts": "${dirname}/+layout.server.ts"
+  }
 }
